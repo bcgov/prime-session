@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Session List</h1>
+
+    {% if sessionList %}
+    <ul>
+
+      {% for session in sessionList %}
+      <li>
+        <a href="{{ session.get_absolute_url }}">{{ session.id }}</a> ({{session.browserHash}})
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    {% else %}
+      <p>There are no sessions.</p>
+    {% endif %}       
+{% endblock %}
