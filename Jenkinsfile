@@ -37,7 +37,7 @@ def EMAILS = 'jam.hamidi@maximusbc.ca'
 //     return
 // }
  
-node('maven') {
+node {
     
     stage('build ' + BUILD_CONFIG) {
         openshiftBuild bldCfg: BUILD_CONFIG, showBuildLogs: 'true'
@@ -55,7 +55,7 @@ node('maven') {
     }
 }
 
-node('maven') {
+node {
 
     stage('deploy-' + TAG_NAMES[1]) {
         input "Deploy to " + TAG_NAMES[1] + "?"
@@ -65,7 +65,7 @@ node('maven') {
     }
 }
 
-node('maven') {
+node {
 
     stage('deploy-'  + TAG_NAMES[2]) {
       input "Deploy to " + TAG_NAMES[2] + "?"
