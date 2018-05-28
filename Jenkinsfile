@@ -15,7 +15,7 @@ node('python') {
             sh 'export PYTHONPATH=./venv/lib/python2.7/site-packages && coverage erase && coverage run --source=. manage.py test && coverage html && coverage xml'
         } catch(Throwable t) {
             result = 1;
-            mail (from: "${EMAIL_FROM}", to: EMAILS, subject: "FYI: Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) unit test failed", body: "See ${env.BUILD_URL} for details. ");
+            mail (from: "EMAIL_FROM", to: EMAILS, subject: "FYI: Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) unit test failed", body: "See ${env.BUILD_URL} for details. ");
         } finally {
             if(fileExists('htmlcov/index.html')) {
                 publishHTML (target: [
