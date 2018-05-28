@@ -57,8 +57,7 @@
             },
             "env": [
               {
-                "name": "PIP_INDEX_URL",
-                "value": "${PIP_INDEX_URL}"
+                "name": "PIP_INDEX_URL"
               }
             ]
           }
@@ -70,7 +69,9 @@
           }
         },
         "resources": {},
-        "postCommit": {},
+        "postCommit": {
+	   "script": "./manage.py test"
+        },
         "nodeSelector": null
       },
       "status": {
