@@ -5,37 +5,37 @@ def BUILD_CONFIG = APP_NAME
 def IMAGESTREAM_NAME = APP_NAME
 def EMAILS = 'jam.hamidi@maximusbc.ca'
 
-def result = 0;
-
-node('python') {
-    stage('Unit Test') {
-        checkout scm
-        try {
-            sh 'pip install --upgrade pip && pip install -r requirements.txt'
-            sh 'export PYTHONPATH=./venv/lib/python2.7/site-packages && coverage erase && coverage run --source=. manage.py test && coverage html && coverage xml'
-        } catch(Throwable t) {
-            result = 1;
-            mail (from: "EMAIL_FROM", to: EMAILS, subject: "FYI: Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) unit test failed", body: "See ${env.BUILD_URL} for details. ");
-        } finally {
-            if(fileExists('htmlcov/index.html')) {
-                publishHTML (target: [
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'htmlcov',
-                    reportFiles: 'index.html',
-                    reportName: "Unit Test Code Coverage Report" ])
-            }
-        }
-    }
-}
-        
-echo "result is ${result}"
-if (result != 0) {
-    echo "[FAILURE] Unit Test stage failed"
-    currentBuild.result = 'FAILURE'
-    return
-}
+// def result = 0;
+//
+// node('python') {
+//     stage('Unit Test') {
+//         checkout scm
+//         try {
+//             sh 'pip install --upgrade pip && pip install -r requirements.txt'
+//             sh 'export PYTHONPATH=./venv/lib/python2.7/site-packages && coverage erase && coverage run --source=. manage.py test && coverage html && coverage xml'
+//         } catch(Throwable t) {
+//             result = 1;
+//             mail (from: "EMAIL_FROM", to: EMAILS, subject: "FYI: Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) unit test failed", body: "See ${env.BUILD_URL} for details. ");
+//         } finally {
+//             if(fileExists('htmlcov/index.html')) {
+//                 publishHTML (target: [
+//                     allowMissing: true,
+//                     alwaysLinkToLastBuild: true,
+//                     keepAll: true,
+//                     reportDir: 'htmlcov',
+//                     reportFiles: 'index.html',
+//                     reportName: "Unit Test Code Coverage Report" ])
+//             }
+//         }
+//     }
+// }
+//         
+// echo "result is ${result}"
+// if (result != 0) {
+//     echo "[FAILURE] Unit Test stage failed"
+//     currentBuild.result = 'FAILURE'
+//     return
+// }
  
 node('maven') {
     
