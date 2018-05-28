@@ -1,0 +1,84 @@
+{
+    "apiVersion": "v1",
+    "kind": "BuildConfig",
+    "metadata": {
+        "annotations": {
+            "description": "Defines how to build the application",
+            "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "creationTimestamp": "2018-05-28T18:15:15Z",
+        "labels": {
+            "app": "django-psql-persistent",
+            "template": "django-psql-persistent"
+        },
+        "name": "prime-session",
+        "namespace": "maximus-prime-tools",
+        "ownerReferences": [
+            {
+                "apiVersion": "template.openshift.io/v1",
+                "blockOwnerDeletion": true,
+                "kind": "TemplateInstance",
+                "name": "2d55643f-2439-48aa-a03e-91469325de4b",
+                "uid": "11db1c40-62a3-11e8-b8d8-0050568379a2"
+            }
+        ],
+        "resourceVersion": "476483793",
+        "selfLink": "/oapi/v1/namespaces/maximus-prime-tools/buildconfigs/prime-session",
+        "uid": "121b7a8f-62a3-11e8-b8d8-0050568379a2"
+    },
+    "spec": {
+        "nodeSelector": null,
+        "output": {
+            "to": {
+                "kind": "ImageStreamTag",
+                "name": "prime-session:latest"
+            }
+        },
+        "postCommit": {
+            "script": "./manage.py test"
+        },
+        "resources": {},
+        "runPolicy": "Serial",
+        "source": {
+            "git": {
+                "uri": "https://github.com/bcgov/prime-session.git"
+            },
+            "type": "Git"
+        },
+        "strategy": {
+            "sourceStrategy": {
+                "env": [
+                    {
+                        "name": "PIP_INDEX_URL"
+                    }
+                ],
+                "from": {
+                    "kind": "ImageStreamTag",
+                    "name": "python:3.5",
+                    "namespace": "openshift"
+                }
+            },
+            "type": "Source"
+        },
+        "triggers": [
+            {
+                "imageChange": {
+                    "lastTriggeredImageID": "registry.access.redhat.com/rhscl/python-35-rhel7@sha256:27ce32b0855dea7b078048064b72e1554069ec737ef3398fa740cc72ec82ddb9"
+                },
+                "type": "ImageChange"
+            },
+            {
+                "type": "ConfigChange"
+            },
+            {
+                "github": {
+                    "secret": "kI4vGtGu8yT8VfsaWvva3FQun6BLGtSvG3haVgG5"
+                },
+                "type": "GitHub"
+            }
+        ]
+    },
+    "status": {
+        "lastVersion": 2
+    }
+}
