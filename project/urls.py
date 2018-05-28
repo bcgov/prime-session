@@ -4,11 +4,18 @@ from django.contrib import admin
 
 from primesession.views import index, health
 
-urlpatterns = [
-    # Examples:
-    # url(r'^$', 'project.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+from rest_framework import routers
+from primesession import views
 
+
+router = routers.DefaultRouter()
+router.register(r'session', views.SessionViewSet)
+router.register(r'token', views.TokenViewSet)
+
+
+urlpatterns = [
+
+    url(r'^', include(router.urls)),
     url(r'^$', index),
     url(r'^health$', health),
     url(r'^admin/', include(admin.site.urls)),
